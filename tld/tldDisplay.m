@@ -134,10 +134,15 @@ else
             bb_draw(bb,'linewidth',linewidth,'edgecolor',color,'curvature',[0 0]);
     end
     
+    % Update FPS vector.
+    global fps;
+    currentFps = 1/toc;
+    fps = [fps currentFps];
+    
     % Info
     
     %string = ['#' num2str(i) ', fps:' num2str(1/toc,2) ', ' num2str(tld.control.maxbbox) '/' num2str(tld.nGrid) ', Fern: ' num2str(tld.model.thr_fern,4) ', NN: ' num2str(tld.model.thr_nn,3) '/' num2str(tld.model.thr_nn_valid,3)];
-    string = ['#' num2str(i) ', fps:' num2str(1/toc,3) ', ' num2str(tld.control.maxbbox) '/' num2str(tld.nGrid)];
+    string = ['#' num2str(i) ', fps:' num2str(currentFps,3) ', ' num2str(tld.control.maxbbox) '/' num2str(tld.nGrid)];
     text(10,H-10,string,'color','white','backgroundcolor','k');
     %if tld.control.update_detector
     %    text(10,H-30,'Learning','color','white','backgroundcolor','k');

@@ -42,6 +42,10 @@ opt.control         = struct('maxbbox',maxbbox,'update_detector',update_detector
 
         
 % Run TLD -----------------------------------------------------------------
+% Create empty FPS vector.
+global fps;
+fps = [];
+
 %profile on;
 [bb,conf] = tldExample(opt);
 %profile off;
