@@ -57,8 +57,23 @@ for i = 2:length(tld.source.idx) % for every frame
         img = getframe;
         imwrite(img.cdata,[tld.output num2str(i,'%05d') '.png']);
     end
-        
     
+    % Save a picture of the object each frame.
+    if tld.plot.save_object == 1
+        % Determine the bounding box.
+        bb=tld.bb(:,tld.source.idx(i)); % Watch out: this vector can contain negative values or NaNs.
+
+        % If none of the numbers is a NaN, save the object picture.
+        if sum(isnan(bb)) == 0
+            % Get the frame.
+            frame=tld.img{i}.input;
+            % Determine the part of the frame that is the object.
+            object=get_object_img(frame,bb);
+            % Save the object picture.
+            imwrite(object,[tld.object 'object' num2str(i,'%05d') '.png'],'PNG');
+        end
+    end
+
 end
 
 bb = tld.bb; conf = tld.conf; % return results

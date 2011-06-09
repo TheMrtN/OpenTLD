@@ -16,6 +16,7 @@ octave-core
 
 # output directory files
 _output/*
+_object/*
 
 # Misc. files #
 ###################
