@@ -40,6 +40,15 @@ maxbbox             = 1; % fraction of evaluated bounding boxes in every frame, 
 update_detector     = 1; % online learning on/off, of 0 detector is trained only in the first frame and then remains fixed
 opt.plot            = struct('pex',1,'nex',1,'dt',1,'confidence',1,'target',1,'replace',0,'drawoutput',3,'draw',0,'pts',1,'help', 0,'patch_rescale',1,'save',0,'save_object',save_object); 
 
+% If we don't use camera input, the init.txt does not exist and there is a
+% background directory, determine the bounding box of the input by making a
+% init.txt with the bounding box of the biggest blob in the first frame.
+% This requires a picture of the background in the folder [opt.source.input
+% 'background/'].
+if ~opt.source.camera && ~exist([opt.source.input 'init.txt'], 'file') && exist([opt.source.input 'background/'], 'dir')
+    determine_initial_bb(opt.source.input, min_win);
+end; % else, the bounding box is determined by the user.
+
 % Do-not-change -----------------------------------------------------------
 
 opt.model           = struct('min_win',min_win,'patchsize',patchsize,'fliplr',fliplr,'ncc_thesame',0.95,'valid',0.5,'num_trees',10,'num_features',13,'thr_fern',0.5,'thr_nn',0.65,'thr_nn_valid',0.7);
