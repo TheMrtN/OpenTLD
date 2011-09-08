@@ -46,29 +46,29 @@ for i = 2:length(tld.source.idx) % for every frame
         if tld.source.camera
             stoppreview(tld.source.vid);
             closepreview(tld.source.vid);
-             close(1);
+            close(1);
         end
         close(2);
         bb = tld.bb; conf = tld.conf; % return results
         return;
     end
     
-    if tld.plot.save == 1
+    if tld.plot.save
         img = getframe;
         imwrite(img.cdata,[tld.output num2str(i,'%05d') '.png']);
     end
     
     % Save a picture of the object each frame.
-    if tld.plot.save_object == 1
+    if isfield(tld.plot,'save_object') && tld.plot.save_object && isfield(tld,'object')
         % Determine the bounding box.
-        bb=tld.bb(:,tld.source.idx(i)); % Watch out: this vector can contain negative values or NaNs.
+        currentBB = tld.bb(:,tld.source.idx(i)); % Watch out: this vector can contain negative values or NaNs.
 
         % If none of the numbers is a NaN, save the object picture.
-        if sum(isnan(bb)) == 0
+        if sum(isnan(currentBB)) == 0
             % Get the frame.
-            frame=tld.img{i}.input;
+            frame = tld.img{i}.input;
             % Determine the part of the frame that is the object.
-            object=get_object_img(frame,bb);
+            object = get_object_img(frame,currentBB);
             % Save the object picture.
             imwrite(object,[tld.object 'object' num2str(i,'%05d') '.png'],'PNG');
         end

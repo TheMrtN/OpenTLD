@@ -17,7 +17,7 @@
 
 addpath(genpath('.')); init_workspace; 
 
-%Debugging flags
+% Debugging flags
 opt.print_debug     = 0; % print debug info to console
 opt.savegroundtruth = 0; % save ground truth data to files
 opt.object_debug    = 0; % print debug messages from get_object_img
@@ -74,4 +74,4 @@ end;
 
 % Save results ------------------------------------------------------------
 dlmwrite([opt.output '/tld.txt'],[bb; conf]');
-disp('Results saved to ./_output.');
+disp(['Results saved to ./' opt.output '.']);
