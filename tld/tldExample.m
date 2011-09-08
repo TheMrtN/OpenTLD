@@ -21,9 +21,9 @@ global tld; % holds results and temporal variables
 
 % INITIALIZATION ----------------------------------------------------------
 
-figure(2); 
-
 opt.source = tldInitSource(opt.source); % select data source, camera/directory
+
+figure(2);
 
 while 1
     source = tldInitFirstFrame(tld,opt.source,opt.model.min_win); % get initial bounding box, return 'empty' if bounding box is too small
