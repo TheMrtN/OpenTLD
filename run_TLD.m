@@ -23,7 +23,8 @@ opt.SAVEGROUNDTRUTH=0; %Save ground truth data to files.
 opt.object_debug=0; % print debug messages from get_object_img
 
 % Feature flags
-save_object         = 1; % toggle saving the picture inside the bounding box of every frame
+remember_fps        = 0; % toggle remembering the fps in a global vector called 'fps'
+save_object         = 0; % toggle saving the picture inside the bounding box of every frame
 
 % Input / output settings
 opt.source          = struct('camera',0,'input','_input/','bb0',[]); % camera/directory swith, directory_name, initial_bounding_box (if empty, it will be selected by the user)
@@ -56,13 +57,15 @@ opt.p_par_init      = struct('num_closest',10,'num_warps',20,'noise',5,'angle',2
 opt.p_par_update    = struct('num_closest',10,'num_warps',10,'noise',5,'angle',10,'shift',0.02,'scale',0.02); % synthesis of positive examples during update
 opt.n_par           = struct('overlap',0.2,'num_patches',100); % negative examples initialization/update
 opt.tracker         = struct('occlusion',10);
-opt.control         = struct('maxbbox',maxbbox,'update_detector',update_detector,'drop_img',1,'repeat',1);
+opt.control         = struct('maxbbox',maxbbox,'update_detector',update_detector,'drop_img',1,'repeat',1,'remember_fps',remember_fps);
 
         
 % Run TLD -----------------------------------------------------------------
-% Create empty FPS vector.
-global fps;
-fps = [];
+if remember_fps
+    % Create empty FPS vector.
+    global fps;
+    fps = [];
+end;
 
 %profile on;
 [bb,conf] = tldExample(opt);
