@@ -18,9 +18,9 @@
 addpath(genpath('.')); init_workspace; 
 
 %Debugging flags
-opt.PRINT_DEBUG=0; %Print debug info to console
-opt.SAVEGROUNDTRUTH=0; %Save ground truth data to files.
-opt.object_debug=0; % print debug messages from get_object_img
+opt.PRINT_DEBUG     = 0; % print debug info to console
+opt.SAVEGROUNDTRUTH = 0; % save ground truth data to files
+opt.object_debug    = 0; % print debug messages from get_object_img
 
 % Feature flags
 remember_fps        = 0; % toggle remembering the fps in a global vector called 'fps'
