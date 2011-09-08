@@ -86,7 +86,7 @@ while 1
                 stoppreview(tld.source.vid);
                 closepreview(tld.source.vid);
             end
-            close(2); close(1);
+            close(2);% close(1);
             return;
         end
         
