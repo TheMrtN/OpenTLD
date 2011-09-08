@@ -21,11 +21,9 @@ global tld; % holds results and temporal variables
 
 % INITIALIZATION ----------------------------------------------------------
 
-opt.source = tldInitSource(opt.source); % select data source, camera/directory
+figure(2); 
 
-figure(2); set(2,'KeyPressFcn', @handleKey); % open figure for display of results
-finish = 0; 
-function handleKey(dummy1,dummy2), finish = 1; fprintf('Execution interrupted by keypress.\n'); end % by pressing any key, the process will exit
+opt.source = tldInitSource(opt.source); % select data source, camera/directory
 
 while 1
     source = tldInitFirstFrame(tld,opt.source,opt.model.min_win); % get initial bounding box, return 'empty' if bounding box is too small
@@ -37,45 +35,10 @@ tld = tldDisplay(0,tld); % initialize display
 
 % RUN-TIME ----------------------------------------------------------------
 
-for i = 2:length(tld.source.idx) % for every frame
-    
-    tld = tldProcessFrame(tld,i); % process frame i
-    tldDisplay(1,tld,i); % display results on frame i
-    
-    if finish % finish if any key was pressed
-        if tld.source.camera
-            stoppreview(tld.source.vid);
-            closepreview(tld.source.vid);
-            close(1);
-        end
-        close(2);
-        bb = tld.bb; conf = tld.conf; % return results
-        return;
-    end
-    
-    if tld.plot.save
-        img = getframe;
-        imwrite(img.cdata,[tld.output num2str(i,'%05d') '.png']);
-    end
-    
-    % Save a picture of the object each frame.
-    if isfield(tld.plot,'save_object') && tld.plot.save_object && isfield(tld,'object')
-        % Determine the bounding box.
-        currentBB = tld.bb(:,tld.source.idx(i)); % Watch out: this vector can contain negative values or NaNs.
+tld = tldExampleLoop(tld);
 
-        % If none of the numbers is a NaN, save the object picture.
-        if sum(isnan(currentBB)) == 0
-            % Get the frame.
-            frame = tld.img{i}.input;
-            % Determine the part of the frame that is the object.
-            object = get_object_img(frame,currentBB);
-            % Save the object picture.
-            imwrite(object,[tld.object 'object' num2str(i,'%05d') '.png'],'PNG');
-        end
-    end
+% RETURN RESULTS ----------------------------------------------------------
 
-end
-
-bb = tld.bb; conf = tld.conf; % return results
+bb = tld.bb; conf = tld.conf;
 
 end
