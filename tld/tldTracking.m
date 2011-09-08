@@ -24,7 +24,7 @@ Conf   = []; % confidence of prediction
 Valid  = 0;  % is the predicted bounding box valid? if yes, learning will take place ...
 
 if isempty(BB1) || ~bb_isdef(BB1)
-    if tld.PRINT_DEBUG==1
+    if tld.print_debug
         fprintf('Detector [%d]: FAIL - No initial Bounding Box\n',I);
     end
     return;
@@ -46,7 +46,7 @@ tld.xFJ = xFJ(:,idxF); % save selected points (only for display purposes)
 
 % detect failures
 if ~bb_isdef(BB2)
-	  if tld.PRINT_DEBUG==1
+	  if tld.print_debug
           fprintf('Detector [%d]: FAIL - No Prediction Bounding Box\n',I);
       end
     BB2 = [];
@@ -54,7 +54,7 @@ return;
 end % bounding box out of image
 
 if bb_isout(BB2,tld.imgsize)
-	  if tld.PRINT_DEBUG==1
+	  if tld.print_debug
           fprintf('Detector [%d]: FAIL - Bounding Box out of bounds\n',I);
       end
     BB2 = [];
@@ -63,7 +63,7 @@ end % bounding box out of image
 
 
 if tld.control.maxbbox > 0 && medFB > 10
-	  if tld.PRINT_DEBUG==1
+	  if tld.print_debug
           fprintf('Detector [%d]: FAIL - Forward Backward Error %f>10\n',I,medFB);
       end
     BB2 = [];

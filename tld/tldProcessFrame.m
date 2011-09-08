@@ -40,18 +40,18 @@ if TR % if tracker is defined
     tld.conf(I)  = tConf;
     tld.size(I)  = 1;
     tld.valid(I) = tValid;
-    if tld.PRINT_DEBUG==1
+    if tld.print_debug
         fprintf('Status [%d]: Tracking is occuring\n',I);
     end
     if DT % if detections are also defined
-        if tld.PRINT_DEBUG==1
+        if tld.print_debug
             fprintf('Status [%d]: Detection is occuring\n',I);
         end
         [cBB,cConf,cSize] = bb_cluster_confidence(dBB,dConf); % cluster detections
         id = bb_overlap(tld.bb(:,I),cBB) < 0.5 & cConf > tld.conf(I); % get indexes of all clusters that are far from tracker and are more confident then the tracker
         
         if sum(id) == 1 % if there is ONE such a cluster, re-initialize the tracker
-            if tld.PRINT_DEBUG==1
+            if tld.print_debug
                 fprintf('Status [%d]: Re-Init BB\n',I);
             end
             tld.bb(:,I)  = cBB(:,id);
@@ -60,7 +60,7 @@ if TR % if tracker is defined
             tld.valid(I) = 0; 
             
         else % othervide adjust the tracker's trajectory
-            if tld.PRINT_DEBUG==1
+            if tld.print_debug
                 fprintf('Status [%d]: Average BB\n',I);
             end
             idTr = bb_overlap(tBB,tld.dt{I}.bb) > 0.7;  % get indexes of close detections
@@ -71,13 +71,13 @@ if TR % if tracker is defined
     
 else % if tracker is not defined
     if DT % and detector is defined
-        if tld.PRINT_DEBUG==1
+        if tld.print_debug
             fprintf('Status [%d]: Detection is occuring\n',I);
         end
         [cBB,cConf,cSize] = bb_cluster_confidence(dBB,dConf); % cluster detections
         
         if length(cConf) == 1 % and if there is just a single cluster, re-initalize the tracker
-            if tld.PRINT_DEBUG==1
+            if tld.print_debug
                 fprintf('Status [%d]: Re-Init BB\n',I);
             end
             tld.bb(:,I)  = cBB;
@@ -96,7 +96,7 @@ end
 
 % display drawing: get center of bounding box and save it to a drawn line
 if ~isnan(tld.bb(1,I))
-        if tld.PRINT_DEBUG==1
+        if tld.print_debug
             fprintf('Status [%d]:Learning is Occuring\n',I);
         end
     tld.draw(:,end+1) = bb_center(tld.bb(:,I));

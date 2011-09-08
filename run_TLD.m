@@ -18,8 +18,8 @@
 addpath(genpath('.')); init_workspace; 
 
 %Debugging flags
-opt.PRINT_DEBUG     = 0; % print debug info to console
-opt.SAVEGROUNDTRUTH = 0; % save ground truth data to files
+opt.print_debug     = 0; % print debug info to console
+opt.savegroundtruth = 0; % save ground truth data to files
 opt.object_debug    = 0; % print debug messages from get_object_img
 
 % Feature flags
