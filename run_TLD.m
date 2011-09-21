@@ -25,10 +25,11 @@ opt.object_debug    = 0; % print debug messages from get_object_img
 % Feature flags
 remember_fps        = 0; % toggle remembering the fps in a global vector called 'fps'
 save_object         = 0; % toggle saving the picture inside the bounding box of every frame
-detect_object       = 0; % toggle detecting if an object appears in the scene
+detect_object       = 1; % toggle detecting if an object appears in the scene
 
 % Input / output settings
-input               = '_input/'; % motorbike example
+% input               = '_input/'; % motorbike example
+input               = '_input_entrance/'; % entrance example with a car driving into the entrance
 opt.source          = struct('camera',0,'input',input,'bb0',[]); % camera/directory swith, directory_name, initial_bounding_box (if empty, it will be selected by the user)
 opt.output          = '_output/'; mkdir(opt.output); % output directory that will contain bounding boxes + confidence
 if save_object
