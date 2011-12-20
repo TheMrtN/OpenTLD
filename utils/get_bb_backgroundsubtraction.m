@@ -26,6 +26,10 @@ diffThresold = 10;
 % The minimum fraction of pixels an object must have to be handled as an
 % object. Minimum is 0, maximum is 1.
 blobSizeThresold = 0.005;
+% The minimum distance in pixels between the image border and a blob. If
+% the distance is smaller than this value, this function returns with an
+% empty bounding box.
+minimumBorderDistance = 2;
 % Demo flag.
 demo = false;
 
@@ -75,13 +79,21 @@ if demo; figure(9); imshow(filteredImage); end;
 % Find the pixels of that single blob.
 [i,j] = find(filteredImage>0);
 
-%% Determine the bounding box.
-% First we determine some correction variables to correct for shadows.
+% Determine the corners of the bounding box.
 minI = min(i);
 maxI = max(i);
-blobHeight = maxI - minI;
 minJ = min(j);
 maxJ = max(j);
+
+% Check if the blob has a certain distance from the borders.
+if minI < minimumBorderDistance || maxI > (rows - minimumBorderDistance) ...
+        || minJ < minimumBorderDistance || maxJ > (cols - minimumBorderDistance)
+    return;
+end
+
+%% Determine the bounding box.
+% First we determine some correction variables to correct for shadows.
+blobHeight = maxI - minI;
 blobWidth = maxJ - minJ;
 correctionSides = .1 * blobWidth; % 10% correction for the sides.
 correctionTop = .05 * blobHeight; % 5% correction for the top.
